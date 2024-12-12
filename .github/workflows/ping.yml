@@ -16,7 +16,7 @@ jobs:
           REPO_URL="https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}"
 
           # Tạo thông báo gửi đến Discord
-          MESSAGE="Thông báo tự động lúc 7:00 sáng (Giờ Việt Nam):\n"
+          MESSAGE="download tool:${{ github.event.repository.name }}\n"
           MESSAGE+="Repository URL: $REPO_URL"
 
           # Gửi thông tin qua webhook Discord
