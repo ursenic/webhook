@@ -1,8 +1,8 @@
-name: Auto Notify at 7:00 AM Vietnam Time with Repo Info
+name: Notify Repository URL at 7:00 AM Vietnam Time
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Chạy mỗi ngày lúc 00:00 UTC (7:00 sáng Việt Nam)
+    - cron: '0 0 * * *' # Chạy vào 00:00 UTC (7:00 sáng Việt Nam)
   workflow_dispatch: # Cho phép chạy thủ công nếu cần
 
 jobs:
@@ -10,19 +10,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send Repository Info to Discord
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Send Repository URL to Discord
         run: |
-          # Lấy thông tin URL Repository và Token
+          # Lấy URL của repository từ GitHub Actions context
           REPO_URL="${{ github.repository_url }}"
-          TOKEN="${{ secrets.GITHUB_TOKEN }}"
 
-          # Tạo thông điệp
-          MESSAGE="Thông báo github:\n"
-          MESSAGE+="Repository URL: $REPO_URL\n"
+          # Tạo thông báo gửi đến Discord
+          MESSAGE="Thông báo tự động lúc 7:00 sáng (Giờ Việt Nam):\n"
+          MESSAGE+="Repository URL: $REPO_URL"
 
-          # Gửi thông điệp đến Discord Webhook
+          # Gửi thông tin qua webhook Discord
           curl -X POST \
             -H "Content-Type: application/json" \
             -d '{"content": "'"$MESSAGE"'"}' \
