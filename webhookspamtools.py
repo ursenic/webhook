@@ -2,8 +2,8 @@
 
 
 """
-Credits: Webhook spammer made by BensGaming
-Discord: bensgaming_
+Credits: Webhook spammer made by dsc.gg/forystu
+Discord: inotnigga
 """
 print("""
                                                                                                  
@@ -12,7 +12,7 @@ print("""
 |__   | |     | . | | -_|  | | | | -_| . |     | . | . | '_|  |__   | . | .'|     |     | -_|  _|
 |_____|_|_|_|_|  _|_|___|  |_____|___|___|__|__|___|___|_,_|  |_____|  _|__,|_|_|_|_|_|_|___|_|  
               |_|                                                   |_|                          
-                                    Made by BensGaming On Top
+                                    Made by dsc.gg/forystu
                                     Đã được việt hóa
 """)
 
