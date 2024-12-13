@@ -1,26 +1,33 @@
-name: Notify Repository URL at 7:00 AM Vietnam Time
+name: Send GitHub Repos to Discord Hourly
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Chạy vào 00:00 UTC (7:00 sáng Việt Nam)
-  workflow_dispatch: # Cho phép chạy thủ công nếu cần
+    - cron: '0 * * * *' # Chạy mỗi giờ vào phút thứ 0
+  workflow_dispatch: # Cũng cho phép chạy thủ công nếu cần
 
 jobs:
-  notify:
+  send_repos:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Send Repository URL to Discord
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get repository list
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Lấy URL của repository từ GitHub Actions context
-          REPO_URL="https://github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}"
+          curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/users/ursenic/repos?per_page=100" \
+            | jq -r '.[].html_url' > repos.txt
+          echo "Repositories fetched:"
+          cat repos.txt
 
-          # Tạo thông báo gửi đến Discord
-          MESSAGE="download tool\n"
-          MESSAGE+="Repository URL: $REPO_URL"
-
-          # Gửi thông tin qua webhook Discord
-          curl -X POST \
-            -H "Content-Type: application/json" \
-            -d '{"content": "'"$MESSAGE"'"}' \
-            "https://stealer.to/post?uniqueid=f983634e"
+      - name: Send to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          REPO_LIST=$(cat repos.txt | jq -Rs .) # Convert danh sách URL thành chuỗi JSON
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{\"content\": \"Free tool download:\n$REPO_LIST\"}" \
+               $DISCORD_WEBHOOK_URL
